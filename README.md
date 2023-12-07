@@ -72,8 +72,7 @@ The output of each SubLayer is `LayerNorm(x + Sublayer(x))`.
 ### For AutoRegressive Tasks
 
 * **GPT-1 architecture**
-
-  <img src="https://iq.opengenus.org/content/images/2020/11/Screen-Shot-2020-11-16-at-9.24.43-AM.png" width="400">
+  <img src="https://production-media.paperswithcode.com/methods/Screen_Shot_2020-05-27_at_12.41.44_PM.png" width="400">
 ---
 
 ### How is Attention applied?

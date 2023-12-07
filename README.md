@@ -72,6 +72,7 @@ The output of each SubLayer is `LayerNorm(x + Sublayer(x))`.
 ### For AutoRegressive Tasks
 
 * **GPT-1 architecture**
+
   <img src="https://production-media.paperswithcode.com/methods/Screen_Shot_2020-05-27_at_12.41.44_PM.png" width="400">
 ---
 

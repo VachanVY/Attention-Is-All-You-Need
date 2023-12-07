@@ -25,11 +25,11 @@ That Attention Is All You Need ;)
 `PE_(pos)`
 * They also experimented with using learned positional embeddings instead and found that the two versions produced nearly identical results. We chose the sinusoidal version because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training
 
-* ![Alt text](image-2.png)
+* ![Alt text](images/image-2.png)
 * However, you can also apply the normal embedding used in word embeddings for positional embeddings
 
 ## Scalled-Dot-Product Attention
-* ![Alt text](image-3.png)
+* ![Alt text](images/image-3.png)
 * The key/value/query concept is analogous to retrieval systems. For example, when you search for videos on YouTube, the search engine will map your query (text in the search bar) against a set of keys (video title, description, etc.) associated with candidate videos in their database, then present you the best-matched videos (values).
 
 * Retrieves a value `v_i` for a query `q` based on a key `k_i` in the database.

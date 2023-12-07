@@ -73,7 +73,7 @@ The output of each SubLayer is `LayerNorm(x + Sublayer(x))`.
 
 * **GPT-1 architecture**
 
-  <img src="https://www.researchgate.net/publication/349521999/figure/fig1/AS:994338746146817@1614080239754/Decoder-Only-Architecture-used-by-GPT-2.ppm" width="400">
+  <img src="https://iq.opengenus.org/content/images/2020/11/Screen-Shot-2020-11-16-at-9.24.43-AM.png" width="400">
 ---
 
 ### How is Attention applied?

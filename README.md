@@ -96,13 +96,17 @@ The output of each SubLayer is `LayerNorm(x + Sublayer(x))`.
 
 ### Regularization: Dropout
 
-* Dropout is applied to the output of each sub-layer before it is added to the sub-layer input and normalized
- Dropout is also applied to the embeddings in both the Encoder and Decoder
+* Applied to the output of each sub-layer before it is added to the sub-layer input and normalized
+* Applied to the embeddings in both the Encoder and Decoder
 ---
 
-### Optimizer:
+## Optimizer:
 
 * Adam Optimizer with `β1=0.9`, `β2=0.98` and `epsilon=1e-9`
 * Learning Rate Schedule:
   * `lr = (d_model**-0.5) * min(step**-0.5, step * warmup_steps**-1.5)`
   * This corresponds to increasing the learning rate linearly for the first warmup_steps training steps and decreasing it after that proportionally to the inverse square root of the step number.
+
+# References
+* [Paper: Attention Is All You Need](https://arxiv.org/pdf/1706.03762v5.pdf)
+* [BLog: The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)

@@ -110,3 +110,6 @@ The output of each SubLayer is `LayerNorm(x + Sublayer(x))`.
 # References
 * [Paper: Attention Is All You Need](https://arxiv.org/pdf/1706.03762v5.pdf)
 * [BLog: The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
+
+# License
+MIT

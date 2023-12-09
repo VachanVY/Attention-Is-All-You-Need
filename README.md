@@ -5,22 +5,40 @@ That Attention Is All You Need ;)
 
 ![Alt text](images/image-1.png)
 
-## Introduction
-* Was difficult to learn dependencies between distant positions in RNNs. In Transformers, this is reduced to a constant number of operations
-* Self-attention is an attention mechanism relating different positions of a single sequence to compute a representation of the sequence
+## Introduction and Background
+* RNNs were great but it was difficult to learn dependencies between distant positions in RNNs. In Transformers, this is reduced to a constant number of operations
+* Self-attention, sometimes called intra-attention is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence
+* The Transformer is the first transduction model relying entirely on self-attention to compute representations of its input and output without using sequence-aligned RNNs or convolution
 
 ## Embedding
 ### Input Embedding
+* What embeddings are:
+  ```python
+  EXAMPLE
+  >>> # x (B, T) --embed--> x_embed (B, T, d_model)
+  >>> # here T=5, d_model=2
+  >>> x[0]
+  tensor([25,  1, 14, 20,  8])
 
-* Use Learned Embeddings to convert input tokens and output tokens to vectors of dimension `d_model`
-* We share the same weight matrix between the 2 Embedding layers and pre-softmax linear transformation
+  >>> C = torch.randn((27, 2)) # (vocab_size, embed_dim)
+  >>> C[1] # 1 is embedded as the output, similarly for all characters
+  tensor([-1.8336, -0.3422])                       # (27 chars in total)
+
+  >>> C[x[0]] # (5, 2) # each integer is embedded as a 2-dimentional vector
+  tensor([[ 0.3084, -0.4326], # <==25
+          [-1.8336, -0.3422], # <==1
+          [-0.0688,  1.9716], # <==14
+          [-0.6746, -0.4913], # <==20
+          [-2.6784, -0.2533]])# <==8
+  ```
+* Use Learnable Embeddings to convert input tokens and output tokens to vectors of dimension `d_model`
 
 ### Positional Embedding
 * The model contains no recurrence and no convolution, for the model to make use of the order of the sequence, we must inject some information about the relative or absolute position of the embeddings
 *
-```python
-   PE_(pos, i) = sin(pos/1e4**(i/d_model)) if i % 2 == 0 else cos(pos/1e4**(i-1/d_model))
-```
+   ```python
+      PE_(pos, i) = sin(pos/1e4**(i/d_model)) if i % 2 == 0 else cos(pos/1e4**(i-1/d_model))
+   ```
 * The authors chose this function because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset `k`, `PE_(pos+k)` can be represented as a linear function of
 `PE_(pos)`
 * They also experimented with using learned positional embeddings instead and found that the two versions produced nearly identical results. We chose the sinusoidal version because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training
@@ -36,8 +54,11 @@ That Attention Is All You Need ;)
 
 * The tensor `score` before masking, tells how much correlated each word is with other words in the sentence as shown above
 <img src="https://miro.medium.com/v2/resize:fit:640/format:webp/0*D8GA7_DsjTfudI0-.png" width="300">
-* Why masking? Eg: "am" shouldn't have access to the attention weight of "fine" as it is from the future. Similarly for others
-<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/0*0pqSkWgSPZYr_Sjx.png" width="300">
+* Now suppose we are doing machine translation from Kannada to English. When humans do it, first we read the entire sentence in Kannada and then start translating to English. Our model does it similarly
+* **The Kannada sentence enters the encoder which is not masked (can see future tokens like how we read the entire sentence then translate)** and **the English sentence enters the decoder which is masked *(We don't want the decoder to cheat by seeing the future tokens through attention while training (while inference there) Eg: "am" shouldn't have access to the attention weight of "fine" as it is from the future. Similarly for others all other words)***
+* How masking?
+
+  <img src="https://miro.medium.com/v2/resize:fit:828/format:webp/0*0pqSkWgSPZYr_Sjx.png" width="300">
 * So, we mask the future attention weights with `-inf`
 <img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/0*QYFua-iIKp5jZLNT.png" width="600">
 

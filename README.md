@@ -53,17 +53,22 @@ That Attention Is All You Need ;)
 * Retrieves a value `v_i` for a query `q` based on a key `k_i` in the database.
 
 * The tensor `score` before masking, tells how much correlated each word is with other words in the sentence as shown above
-<img src="https://miro.medium.com/v2/resize:fit:640/format:webp/0*D8GA7_DsjTfudI0-.png" width="300">
+  
+  <img src="https://miro.medium.com/v2/resize:fit:640/format:webp/0*D8GA7_DsjTfudI0-.png" width="300">
+
 * Now suppose we are doing machine translation from Kannada to English. When humans do it, first we read the entire sentence in Kannada and then start translating to English. Our model does it similarly
 * **The Kannada sentence enters the encoder which is not masked (can see future tokens like how we read the entire sentence then translate)** and **the English sentence enters the decoder which is masked *(We don't want the decoder to cheat by seeing the future tokens through attention while training (while inference there) Eg: "am" shouldn't have access to the attention weight of "fine" as it is from the future. Similarly for others all other words)***
 * How masking?
 
   <img src="https://miro.medium.com/v2/resize:fit:828/format:webp/0*0pqSkWgSPZYr_Sjx.png" width="300">
 * So, we mask the future attention weights with `-inf`
-<img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/0*QYFua-iIKp5jZLNT.png" width="600">
+  
+  <img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/0*QYFua-iIKp5jZLNT.png" width="600">
 
 * Then the softmax function makes them 0
-<img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/0*3ykVCJ9okbgB0uUR.png" width="600">
+  
+  <img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/0*3ykVCJ9okbgB0uUR.png" width="600">
+
 * If we mask the illegal connections as `0` after softmax, the sum won't be `1`, so we mask the illegal connections as `-inf` before applying softmax, so after applying softmax the sum will be `1`
 
 ## Multi-Head Attention

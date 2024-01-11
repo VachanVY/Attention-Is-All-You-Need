@@ -20,7 +20,7 @@ That Attention Is All You Need ;)
   >>> x[0]
   tensor([25,  1, 14, 20,  8])
 
-  >>> C = torch.randn((27, 2)) # (vocab_size, embed_dim)
+  >>> C = randn((27, 2)) # (vocab_size, d_model)
   >>> C[1] # 1 is embedded as the output, similarly for all characters
   tensor([-1.8336, -0.3422])                       # (27 chars in total)
 
@@ -41,10 +41,10 @@ That Attention Is All You Need ;)
    ```
 * The authors chose this function because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset `k`, `PE_(pos+k)` can be represented as a linear function of
 `PE_(pos)`
-* They also experimented with using learned positional embeddings instead and found that the two versions produced nearly identical results. We chose the sinusoidal version because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training
+* They also experimented with using learned positional embeddings instead and found that the two versions produced nearly identical results. They chose the sinusoidal version because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training. However, you can also apply the normal embedding used in word embeddings for positional embeddings
 
 * ![Alt text](images/image-2.png)
-* However, you can also apply the normal embedding used in word embeddings for positional embeddings
+
 
 ## Scalled-Dot-Product Attention
 * ![Alt text](images/image-3.png)
@@ -139,6 +139,3 @@ The output of each SubLayer is `LayerNorm(x + Sublayer(x))`.
 # References
 * [Paper: Attention Is All You Need](https://arxiv.org/pdf/1706.03762v5.pdf)
 * [BLog: The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
-
-# License
-MIT

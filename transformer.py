@@ -1,16 +1,12 @@
-from dataclasses import dataclass
-
 import tensorflow as tf
 tnp = tf.experimental.numpy
 nn = tf.keras
 
 from comps import (
     AttentionV2 as Attention,
-    Embed,
-    
+    Embed
 )
 
-@dataclass
 class Args:
     d_model:int
     n_heads:int
@@ -23,7 +19,7 @@ class Args:
     num_decoder_layers:int
 
 
-def Transformer():
+def Transformer(Args:Args):
     FeedForward = lambda: nn.Sequential([
                 nn.layers.Dense(Args.d_model*4),
                 nn.layers.Activation(nn.activations.relu),         

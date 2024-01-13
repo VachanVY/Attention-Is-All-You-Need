@@ -133,9 +133,6 @@ The output of each SubLayer is `LayerNorm(x + Sublayer(x))`.
   * `lr = (d_model**-0.5) * min(step**-0.5, step * warmup_steps**-1.5)`
   * This corresponds to increasing the learning rate linearly for the first warmup_steps training steps and decreasing it after that proportionally to the inverse square root of the step number.
 
-# Results
-* Will be soon training the model on English to Kannada Machine Translation Dataset and uploading it!
-
 # References
 * [Paper: Attention Is All You Need](https://arxiv.org/pdf/1706.03762v5.pdf)
 * [BLog: The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)

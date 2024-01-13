@@ -7,15 +7,12 @@ class PositionalEncoding(nn.layers.Layer):
     """Sine-Cosine Positional Embedding"""
     def __init__(self, max_length:int, d_model:int, **kwargs):
         super().__init__(**kwargs)
-        p, i = tf.meshgrid(tf.range(max_length), 2*tf.range(d_model//2))
-        p, i = tf.cast(p, tf.float32), tf.cast(i, tf.float32)
+        p, i = tf.meshgrid(tf.range(float(max_length)), 2*tf.range(d_model/2))
         
         theta = p/10_000**(i/d_model)
         angle = tf.transpose(theta)
 
-        self.pos_embed = tf.Variable(tf.zeros((max_length, d_model)))
-        self.pos_embed[:, ::2].assign(tf.sin(angle)) # even places => sin
-        self.pos_embed[:, 1::2].assign(tf.cos(angle)) # odd places => cos
+        self.pos_embed = tf.reshape(tf.stack([tf.sin(angle), tf.cos(angle)]), (maxlen, d_model))
 
     def call(self, x=None):
         if x is None:
@@ -99,12 +96,11 @@ class AttentionV2(nn.layers.Layer):
     ):
         super().__init__(**kwargs)
         self.causal = causal
-        self.d_model = d_model
         self.n_heads = n_heads
         self.dropout_rate = dropout_rate
         self.dq = self.dk = self.dv = d_model//n_heads
 
-        self.w = nn.layers.Dense(self.d_model, use_bias=False)
+        self.w = nn.layers.Dense(d_model, use_bias=False)
         self.wq = nn.layers.Dense(d_model, use_bias=False)
         self.wk = nn.layers.Dense(d_model, use_bias=False)
         self.wv = nn.layers.Dense(d_model, use_bias=False)
@@ -112,8 +108,7 @@ class AttentionV2(nn.layers.Layer):
 
     
     def _mask(self, x:tf.Tensor):
-        tril = tnp.tril(tf.ones_like(x))
-        return tf.where(tril==0., -tnp.inf, x)
+        
     
     def call(
             self, 
@@ -137,7 +132,9 @@ class AttentionV2(nn.layers.Layer):
 
         # compute attention weights
         att_wei = tf.matmul(q, k, transpose_b=True)/d_model**0.5 # (h, B, N, T)
-        att_wei = self._mask(att_wei) if self.causal else att_wei # (h, B, N, T)
+            if self.causal:
+                tril = tnp.tril(tf.ones_like(x))
+                att_wei = tf.where(tril==0., -tnp.inf, x) # (h, B, N, T)
         att_wei = tf.nn.softmax(att_wei, axis=-1) # (h, B, N, N)
 
         # apply attention weights to v

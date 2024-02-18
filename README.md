@@ -57,7 +57,7 @@ That Attention Is All You Need ;)
   <img src="https://miro.medium.com/v2/resize:fit:640/format:webp/0*D8GA7_DsjTfudI0-.png" width="300">
 
 * Now suppose we are doing machine translation from Kannada to English. When humans do it, first we read the entire sentence in Kannada and then start translating to English. Our model does it similarly
-* **The Kannada sentence enters the encoder which is not masked (can see future tokens like how we read the entire sentence then translate)** and **the English sentence enters the decoder which is masked *(We don't want the decoder to cheat by seeing the future tokens through attention while training (while inference there) Eg: "am" shouldn't have access to the attention weight of "fine" as it is from the future. Similarly for others all other words)***
+* **The Kannada sentence enters the encoder which is not masked (can see future tokens like how we read the entire sentence then translate)** and **the English sentence enters the decoder which is masked *(We don't want the decoder to cheat by seeing the future tokens through attention while training (while inference there's no need of this as there are no tokens in the future as we will generate the next tokens) Eg: "am" shouldn't have access to the attention weight of "fine" as it is from the future. Similarly for others all other words)***
 * How masking?
 
   <img src="https://miro.medium.com/v2/resize:fit:828/format:webp/0*0pqSkWgSPZYr_Sjx.png" width="300">

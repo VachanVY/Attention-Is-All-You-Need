@@ -69,6 +69,8 @@ That Attention Is All You Need ;)
   
   <img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/0*3ykVCJ9okbgB0uUR.png" width="600">
 
+* Now, when we multiply the attention weights with the value matrix, the future tokens for a particular token will get 0 weight and thus will not be able to see the future tokens
+
 * If we mask the illegal connections as `0` after softmax, the sum won't be `1`, so we mask the illegal connections as `-inf` before applying softmax, so after applying softmax the sum will be `1`
 
 ## Multi-Head Attention
